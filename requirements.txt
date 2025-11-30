@@ -2,7 +2,9 @@ streamlit
 langchain-community
 langchain-huggingface
 langchain-text-splitters
+langchain-google-genai
 chromadb
 sentence-transformers
 pypdf
 huggingface_hub
+
