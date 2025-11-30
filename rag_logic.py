@@ -8,8 +8,17 @@ from langchain_community.vectorstores import Chroma
 
 
 # -------- PDF LOADING (NO TEMP FILES) --------
+import tempfile
+
 def load_pdf(pdf_bytes):
-    return PyPDFLoader.from_bytes(pdf_bytes).load()
+    # Write to a temp PDF file in /tmp
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+        tmp.write(pdf_bytes)
+        tmp_path = tmp.name
+
+    # Must load AFTER closing file
+    loader = PyPDFLoader(tmp_path)
+    return loader.load()
 
 
 # -------- VECTORSTORE --------
@@ -69,3 +78,4 @@ def answer_query(vectordb, llm, question):
 
     response = llm.invoke(prompt)
     return response.content
+
